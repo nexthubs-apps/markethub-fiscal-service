@@ -1,35 +1,23 @@
-# fly.toml - Configuração de deploy no Fly.io
-app = "markethub-fiscal"
-primary_region = "gru"  # São Paulo - mais próximo da SEFAZ-RJ
+# fly.toml app configuration file generated for app-old-star-4050 on 2026-04-21T01:35:00Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'app-old-star-4050'
+primary_region = 'iad'
 
 [build]
-  dockerfile = "Dockerfile"
-
-[env]
-  PORT = "3000"
-  NODE_ENV = "production"
 
 [http_service]
-  internal_port = 3000
+  internal_port = 8080
   force_https = true
-  auto_stop_machines = false  # Always-on para evitar cold start
+  auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 1
-  processes = ["app"]
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  cpu_kind = "shared"
+  memory = '1gb'
+  cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 512  # Suficiente para processamento XML
-
-# Health checks
-[[services.http_checks]]
-  interval = "30s"
-  timeout = "5s"
-  grace_period = "10s"
-  method = "GET"
-  path = "/health"
-  protocol = "http"
-  tls_skip_verify = false
-  [services.http_checks.headers]
-    Host = "markethub-fiscal.fly.dev"
+  memory_mb = 256
